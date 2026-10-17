@@ -1,0 +1,54 @@
+package com.klef.soa.exam.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.klef.soa.exam.entity.StorageUnit;
+import com.klef.soa.exam.repository.StorageUnitRepository;
+
+@Service
+public class StorageUnitServiceImpl implements StorageUnitService {
+
+    @Autowired
+    private StorageUnitRepository repo;
+
+    @Override
+    public StorageUnit addstorageunit(StorageUnit storageUnit) {
+        return repo.save(storageUnit);
+    }
+
+    @Override
+    public StorageUnit updatestoragesnit(StorageUnit storageUnit) {
+        Optional<StorageUnit> optional = repo.findById(storageUnit.getId());
+
+        if (optional.isPresent()) {
+            StorageUnit unit = optional.get();
+            nit.setUnitCode(storageUnit.getUnitCode());
+            existingUnit.setSizeSquareFeet(storageUnit.getSizeSquareFeet());
+            existingUnit.setMonthlyFee(storageUnit.getMonthlyFee());
+            existingUnit.setOccupied(storageUnit.isOccupied());
+
+            return repo.save(existingUnit);
+        }
+
+        return null;
+    }
+
+    @Override
+    public String deletestorageunit(Long id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return "Storage unit deleted successfully";
+        }
+
+        return "Storage unit ID not found to delete";
+    }
+
+    @Override
+    public List<StorageUnit> displayallstorageUnits() {
+        return repo.findAll();
+    }
+}

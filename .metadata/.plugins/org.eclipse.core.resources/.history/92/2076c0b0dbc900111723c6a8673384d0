@@ -1,0 +1,50 @@
+
+package com.klef.soa.exam.controller;
+
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.klef.soa.exam.entity.StorageUnit;
+import com.klef.soa.exam.service.StorageUnitService;
+
+@RestController
+@RequestMapping("/storageunit")
+public class StorageUnitController {
+
+    @Autowired
+    private StorageUnitService service;
+
+    @GetMapping("/")
+    public String home() {
+        return "This is home page";
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<StorageUnit> addStorageUnit(
+            @RequestBody StorageUnit storageUnit) {
+
+        StorageUnit output = service.addstorageunit(storageUnit);
+        return ResponseEntity.ok(output);
+    }
+
+    @GetMapping("/displayall")
+    public ResponseEntity<List<StorageUnit>> displayAllStorageUnits() {
+
+        List<StorageUnit> output = service.displayallstorageUnits();
+        return ResponseEntity.ok(output);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteStorageUnit(
+            @PathVariable Long id) {
+
+        String output = service.deletestorageunit(id);
+        return ResponseEntity.ok(output);
+    }
+}
+
+

@@ -1,0 +1,53 @@
+package com.klef.soa.exam.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Table
+@Entity
+public class StorageUnit {
+	@Id
+	@GeneratedValue(strategy = )
+	private int id;
+	private String unitCode;
+	private double sizeSquareFeet;
+	private double monthlyFee;
+	private boolean occupied;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getUnitCode() {
+		return unitCode;
+	}
+	public void setUnitCode(String unitCode) {
+		this.unitCode = unitCode;
+	}
+	public double getSizeSquareFeet() {
+		return sizeSquareFeet;
+	}
+	public void setSizeSquareFeet(double sizeSquareFeet) {
+		this.sizeSquareFeet = sizeSquareFeet;
+	}
+	public double getMonthlyFee() {
+		return monthlyFee;
+	}
+	public void setMonthlyFee(double monthlyFee) {
+		this.monthlyFee = monthlyFee;
+	}
+	public boolean isOccupied() {
+		return occupied;
+	}
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
+	}
+	@Override
+	public String toString() {
+		return "StorageUnit [id=" + id + ", unitCode=" + unitCode + ", sizeSquareFeet=" + sizeSquareFeet
+				+ ", monthlyFee=" + monthlyFee + ", occupied=" + occupied + "]";
+	}
+}

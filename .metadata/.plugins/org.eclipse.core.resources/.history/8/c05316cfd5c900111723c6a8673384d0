@@ -1,0 +1,8 @@
+package com.klef.soa.exam.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/")
+public class StorgaeUnitController {
+
+}

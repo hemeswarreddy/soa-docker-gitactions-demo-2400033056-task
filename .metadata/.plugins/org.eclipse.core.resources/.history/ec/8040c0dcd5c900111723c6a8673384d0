@@ -1,0 +1,11 @@
+package com.klef.soa.exam.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/storageunit")
+public class StorgaeUnitController {
+	
+	@Autowired
+
+}
