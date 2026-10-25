@@ -1,0 +1,52 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: actions/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        if: ${{ (secrets.DOCKER_USERNAME != '' || secrets.DOCKERHUB_USERNAME != '') && (secrets.DOCKER_PASSWORD != '' || secrets.DOCKERHUB_TOKEN != '') }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME || secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD || secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Backend Image
+        run: |
+          docker build -t docker-backend-2400033056:latest ./backend
+
+      - name: Build Frontend Image
+        run: |
+          docker build -t docker-frontend-2400033056:latest ./frontend
+
+      - name: Tag and Push Backend Image
+        if: ${{ (secrets.DOCKER_USERNAME != '' || secrets.DOCKERHUB_USERNAME != '') && (secrets.DOCKER_PASSWORD != '' || secrets.DOCKERHUB_TOKEN != '') }}
+        run: |
+          DOCKER_USER="${{ secrets.DOCKER_USERNAME || secrets.DOCKERHUB_USERNAME }}"
+          docker tag docker-backend-2400033056:latest ${DOCKER_USER}/docker-backend-2400033056:latest
+          docker tag docker-backend-2400033056:latest ${DOCKER_USER}/docker-backend-2400033056:${{ github.sha }}
+          docker push ${DOCKER_USER}/docker-backend-2400033056:latest
+          docker push ${DOCKER_USER}/docker-backend-2400033056:${{ github.sha }}
+
+      - name: Tag and Push Frontend Image
+        if: ${{ (secrets.DOCKER_USERNAME != '' || secrets.DOCKERHUB_USERNAME != '') && (secrets.DOCKER_PASSWORD != '' || secrets.DOCKERHUB_TOKEN != '') }}
+        run: |
+          DOCKER_USER="${{ secrets.DOCKER_USERNAME || secrets.DOCKERHUB_USERNAME }}"
+          docker tag docker-frontend-2400033056:latest ${DOCKER_USER}/docker-frontend-2400033056:latest
+          docker tag docker-frontend-2400033056:latest ${DOCKER_USER}/docker-frontend-2400033056:${{ github.sha }}
+          docker push ${DOCKER_USER}/docker-frontend-2400033056:latest
+          docker push ${DOCKER_USER}/docker-frontend-2400033056:${{ github.sha }}

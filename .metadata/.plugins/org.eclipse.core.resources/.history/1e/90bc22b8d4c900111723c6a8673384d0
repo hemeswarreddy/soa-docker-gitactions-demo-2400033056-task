@@ -1,6 +1,0 @@
-package com.klef.soa.exam.service;
-
-@service
-public class StorageUnitServiceImpl {
-
-}

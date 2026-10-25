@@ -1,9 +1,0 @@
-package com.klef.soa.exam.entity;
-
-import jakarta.persistence.Table;
-
-@Table
-@
-public class StorageUnit {
-
-}
